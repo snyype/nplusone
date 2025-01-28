@@ -21,27 +21,34 @@ class NPlusOneLoggerServiceProvider extends ServiceProvider
                 __DIR__ . '/../config/nplusone.php' => config_path('nplusone.php'),
             ], 'config');
 
-        //listen to db queries
-        if ($this->app->environment() !== 'production') {
-            \DB::listen(function ($query) {
-                // Check for N+1 query patterns here
-                if ($this->isNPlusOneQuery($query)) {
-                    // Capture the backtrace to see where the query was triggered
-                    $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
-                    $caller = isset($backtrace[2]) ? $backtrace[2] : null;
-                    $file = $caller['file'] ?? 'N/A';
-                    $line = $caller['line'] ?? 'N/A';
+            // Register the command
+            if ($this->app->runningInConsole()) {
+                $this->commands([
+                    \Snype\Nplusone\Console\Commands\NPlusOneLogCommand::class,
+                ]);
+            }
 
-                    // Log the N+1 query with the file and line number
-                    Log::warning('N+1 Query Detected: ' . $query->sql, [
-                        'bindings' => $query->bindings,
-                        'time' => $query->time,
-                        'file' => $file,
-                        'line' => $line,
-                    ]);
-                }
-            });
-        }
+            //listen to db queries
+            if ($this->app->environment() !== 'production') {
+                \DB::listen(function ($query) {
+                    // Check for N+1 query patterns here
+                    if ($this->isNPlusOneQuery($query)) {
+                        // Capture the backtrace to see where the query was triggered
+                        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+                        $caller = isset($backtrace[2]) ? $backtrace[2] : null;
+                        $file = $caller['file'] ?? 'N/A';
+                        $line = $caller['line'] ?? 'N/A';
+
+                        // Log the N+1 query with the file and line number
+                        Log::warning('N+1 Query Detected: ' . $query->sql, [
+                            'bindings' => $query->bindings,
+                            'time' => $query->time,
+                            'file' => $file,
+                            'line' => $line,
+                        ]);
+                    }
+                });
+            }
     }
 
     private function isNPlusOneQuery($query)
