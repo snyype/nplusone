@@ -22,11 +22,11 @@ class NPlusOneLoggerServiceProvider extends ServiceProvider
             ], 'config');
 
             // Register the command
-            if ($this->app->runningInConsole()) {
-                $this->commands([
-                    \Snype\Nplusone\Console\Commands\NPlusOneLogCommand::class,
-                ]);
-            }
+            // if ($this->app->runningInConsole()) {
+            //     $this->commands([
+            //         \Snype\Nplusone\Console\Commands\NPlusOneLogCommand::class,
+            //     ]);
+            // }
 
             //listen to db queries
             if ($this->app->environment() !== 'production') {
