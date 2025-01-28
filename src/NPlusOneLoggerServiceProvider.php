@@ -1,6 +1,6 @@
 <?php
 
-namespace YourNamespace\NPlusOneLogger;
+namespace snype\Nplusone;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
