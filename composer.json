@@ -1,0 +1,28 @@
+{
+    "name": "snype/nplusone",
+    "description": "This package helps you detect and log N+1 queries in a Laravel application to help optimize database performance. By listening to all database queries executed during the request lifecycle, the package identifies queries that may lead to N+1 query problems, which can severely impact the performance of your application.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Snype\\Nplusone\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+                "providers": [
+                    "Snype\\Nplusone\\NPlusOneLoggerServiceProvider"
+                ]
+            }
+        },
+    "authors": [
+        {
+            "name": "snype",
+            "email": "snypeatwork@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.0 || ^8.0"
+    }
+}
