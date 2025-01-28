@@ -1,6 +1,6 @@
 <?php
 
-namespace Snype\Nplusone\Console\Commands;
+namespace snype\Nplusone\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
